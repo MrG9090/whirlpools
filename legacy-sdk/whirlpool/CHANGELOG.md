@@ -1,5 +1,27 @@
 # @orca-so/whirlpools-sdk
 
+## 0.20.0
+
+### Minor Changes
+
+- [#1242](https://github.com/orca-so/whirlpools/pull/1242) [`022bd2a`](https://github.com/orca-so/whirlpools/commit/022bd2ae49a19a8ec143cd7998b6f436663eebac) Thanks [@wjthieme](https://github.com/wjthieme)! - Use increaseLiquidityByTokenAmounts as the default increaseLiquidity instruction
+
+- [#1242](https://github.com/orca-so/whirlpools/pull/1242) [`022bd2a`](https://github.com/orca-so/whirlpools/commit/022bd2ae49a19a8ec143cd7998b6f436663eebac) Thanks [@wjthieme](https://github.com/wjthieme)! - Use increaseLiquidityByTokenAmounts as default.
+
+  BREAKING: increaseLiquidity now expects ByTokenAmounts params (tokenMaxA/B and
+  min/max sqrt price bounds) rather than the previous default liquidity-based
+  instruction.
+
+  @orca-so/whirlpools-sdk is still in major version zero so the breaking changes
+  are a minor update.
+
+  It avoids an intermediate liquidity calculation and is more natural for
+  callers to provide token amounts; the instruction derives the liquidity change
+  under price-deviation constraints.
+
+  Update callers to pass ByTokenAmountsParams (tokenMaxA/B plus minSqrtPrice
+  and maxSqrtPrice).
+
 ## 0.19.0
 
 ### Minor Changes

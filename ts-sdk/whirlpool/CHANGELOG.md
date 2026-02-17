@@ -1,5 +1,74 @@
 # @orca-so/whirlpools
 
+## 7.0.0
+
+### Major Changes
+
+- [#1247](https://github.com/orca-so/whirlpools/pull/1247) [`0324ac8`](https://github.com/orca-so/whirlpools/commit/0324ac8f1658c201e73abace077f734a38b9dcb7) Thanks [@josh-orca](https://github.com/josh-orca)! - Refactors the increase-liquidity API in both TypeScript and Rust SDKs to use token maximum amounts. Both SDKs now require specifying `tokenMaxA` and `tokenMaxB` — the program adds the maximum liquidity achievable within those limits.
+
+  ## Breaking changes
+
+  ### TypeScript SDK (`@orca-so/whirlpools`)
+
+  The increase-liquidity and open-position functions now take `tokenMaxAmounts: { tokenMaxA, tokenMaxB }` instead of a param object with `liquidity`, `tokenA`, or `tokenB`. The return value no longer includes a `quote` — callers must compute quotes separately if needed.
+
+  ```ts
+  // Before
+  { liquidity: 10_000n }
+  { tokenA: 1_000_000n }
+  { tokenB: 1_000_000n }
+  // Returned: { quote, instructions, ... }
+
+  // After
+  { tokenMaxA: 1_000_000n, tokenMaxB: 1_000_000n }
+  // One-sided: { tokenMaxA: 1_000_000n, tokenMaxB: 0n } or { tokenMaxA: 0n, tokenMaxB: 1_000_000n }
+  // Returned: { instructions } (no quote)
+  ```
+
+  ### Rust SDK (`@orca-so/whirlpools-rust`)
+
+  `IncreaseLiquidityParam` has been removed and replaced with `IncreaseLiquidityTokenMaxAmounts`, a struct constructed via `IncreaseLiquidityTokenMaxAmounts::new(token_max_a, token_max_b)`. The increase-liquidity and open-position functions no longer return a quote.
+
+  ```rust
+  // Before
+  IncreaseLiquidityParam::Liquidity(amount)
+  IncreaseLiquidityParam::TokenA(amount)
+  IncreaseLiquidityParam::TokenB(amount)
+  // Returned: IncreaseLiquidityInstruction { quote, instructions, ... }
+
+  // After
+  IncreaseLiquidityTokenMaxAmounts::new(1_000_000, 1_000_000)
+  // One-sided: IncreaseLiquidityTokenMaxAmounts::new(1_000_000, 0) or ::new(0, 1_000_000)
+  // Returned: IncreaseLiquidityInstruction { instructions, additional_signers } (no quote)
+  ```
+
+- [#1243](https://github.com/orca-so/whirlpools/pull/1243) [`7290d86`](https://github.com/orca-so/whirlpools/commit/7290d869c004bb07671e160dc0b73fdae1ac5609) Thanks [@jshiohaha](https://github.com/jshiohaha)! - propagate withTokenMetadataExtension parameter to allow caller to pass metadata preferences, add new openPositionInstructionsWithTickBounds function, change getIncreaseLiquidityQuote visibility modifier
+
+### Minor Changes
+
+- [#1242](https://github.com/orca-so/whirlpools/pull/1242) [`022bd2a`](https://github.com/orca-so/whirlpools/commit/022bd2ae49a19a8ec143cd7998b6f436663eebac) Thanks [@wjthieme](https://github.com/wjthieme)! - Use increaseLiquidityByTokenAmounts as default.
+
+  BREAKING: increaseLiquidity now expects ByTokenAmounts params (tokenMaxA/B and
+  min/max sqrt price bounds) rather than the previous default liquidity-based
+  instruction.
+
+  @orca-so/whirlpools-sdk is still in major version zero so the breaking changes
+  are a minor update.
+
+  It avoids an intermediate liquidity calculation and is more natural for
+  callers to provide token amounts; the instruction derives the liquidity change
+  under price-deviation constraints.
+
+  Update callers to pass ByTokenAmountsParams (tokenMaxA/B plus minSqrtPrice
+  and maxSqrtPrice).
+
+- [#1250](https://github.com/orca-so/whirlpools/pull/1250) [`1d34846`](https://github.com/orca-so/whirlpools/commit/1d348463128ffca6d45fb5bd5a167007a11522f2) Thanks [@josh-orca](https://github.com/josh-orca)! - Update sqrt price math precision
+
+### Patch Changes
+
+- Updated dependencies [[`1d34846`](https://github.com/orca-so/whirlpools/commit/1d348463128ffca6d45fb5bd5a167007a11522f2)]:
+  - @orca-so/whirlpools-core@3.1.0
+
 ## 6.0.0
 
 ### Major Changes

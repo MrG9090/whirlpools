@@ -1,5 +1,11 @@
 # @orca-so/whirlpools-rust-core
 
+## 2.1.0
+
+### Minor Changes
+
+- [#1250](https://github.com/orca-so/whirlpools/pull/1250) [`1d34846`](https://github.com/orca-so/whirlpools/commit/1d348463128ffca6d45fb5bd5a167007a11522f2) Thanks [@josh-orca](https://github.com/josh-orca)! - Update sqrt price math precision
+
 ## 2.0.1
 
 ### Patch Changes
