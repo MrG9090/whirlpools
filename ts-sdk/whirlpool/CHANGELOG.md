@@ -1,5 +1,11 @@
 # @orca-so/whirlpools
 
+## 7.0.1
+
+### Patch Changes
+
+- [#1252](https://github.com/orca-so/whirlpools/pull/1252) [`505cbe0`](https://github.com/orca-so/whirlpools/commit/505cbe07ebadee7e3e130abc034b32c9b27248d7) Thanks [@jshiohaha](https://github.com/jshiohaha)! - replace create_associated_token_account with create_associated_token_account_idempotent in prepare_token_accounts_instructions
+
 ## 7.0.0
 
 ### Major Changes

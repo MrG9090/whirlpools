@@ -2515,7 +2515,7 @@ dependencies = [
 
 [[package]]
 name = "orca_whirlpools"
-version = "6.1.0"
+version = "7.0.0"
 dependencies = [
  "agave-feature-set",
  "approx",
@@ -2583,7 +2583,7 @@ dependencies = [
 
 [[package]]
 name = "orca_whirlpools_core"
-version = "2.0.1"
+version = "2.1.0"
 dependencies = [
  "ethnum",
  "libm",
